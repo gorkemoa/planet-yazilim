@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { theme } from './styles/GlobalStyles';
 import LoadingFallback from './components/common/LoadingFallback';
 import Navbar from './components/Navbar';
+import Footer from './components/common/Footer';
 import BlogMakaleler from './pages/Blog/BlogMakaleler';
 import BlogVideolar from './pages/Blog/BlogVideolar';
 import BlogKaynaklar from './pages/Blog/BlogKaynaklar';
@@ -49,53 +50,56 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <Navbar />
-        <Suspense fallback={<LoadingFallback />}>
-          <Routes>
-            <Route path="/" element={
-              <main>
-                <Hero />
-                <About />
-                <LearnMore />
-                <Products />
-                <Solutions />
-                <Services />
-                <Testimonials />
-                <LatestArticles />
-              </main>
-            } />
-            <Route path="/iletisim-bilgileri" element={<ContactPage />} />
-            <Route path="/lokasyon" element={<LocationPage />} />
-            <Route path="/blog/makaleler" element={<BlogMakaleler />} />
-            <Route path="/blog/videolar" element={<BlogVideolar />} />
-            <Route path="/blog/kaynaklar" element={<BlogKaynaklar />} />
-            <Route path="/referanslar/basari-hikayeleri" element={<BasariHikayeleri />} />
-            <Route path="/referanslar/sektorel-referanslar" element={<SektorelReferanslar />} />
-            <Route path="/referanslar/musteri-yorumlari" element={<MusteriYorumlari />} />
-            <Route path="/referanslar/vaka-calismalari" element={<VakaCalismalari />} />
-            
-            {/* Çözümler route'ları */}
-            <Route path="/sektorel" element={<SektorelCozumler />} />
-            <Route path="/e-ticaret" element={<ETicaret />} />
-            <Route path="/is-surecleri" element={<IsSurecleri />} />
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+          <Navbar />
+          <Suspense fallback={<LoadingFallback />}>
+            <Routes>
+              <Route path="/" element={
+                <main>
+                  <Hero />
+                  <About />
+                  <LearnMore />
+                  <Products />
+                  <Solutions />
+                  <Services />
+                  <Testimonials />
+                  <LatestArticles />
+                </main>
+              } />
+              <Route path="/iletisim-bilgileri" element={<ContactPage />} />
+              <Route path="/lokasyon" element={<LocationPage />} />
+              <Route path="/blog/makaleler" element={<BlogMakaleler />} />
+              <Route path="/blog/videolar" element={<BlogVideolar />} />
+              <Route path="/blog/kaynaklar" element={<BlogKaynaklar />} />
+              <Route path="/referanslar/basari-hikayeleri" element={<BasariHikayeleri />} />
+              <Route path="/referanslar/sektorel-referanslar" element={<SektorelReferanslar />} />
+              <Route path="/referanslar/musteri-yorumlari" element={<MusteriYorumlari />} />
+              <Route path="/referanslar/vaka-calismalari" element={<VakaCalismalari />} />
+              
+              {/* Çözümler route'ları */}
+              <Route path="/sektorel" element={<SektorelCozumler />} />
+              <Route path="/e-ticaret" element={<ETicaret />} />
+              <Route path="/is-surecleri" element={<IsSurecleri />} />
 
-            {/* Ürünler route'ları */}
-            <Route path="/tum-urunler" element={<TumUrunler />} />
-            <Route path="/demolar" element={<Demolar />} />
-            <Route path="/yeni-urunler" element={<YeniUrunler />} />
+              {/* Ürünler route'ları */}
+              <Route path="/tum-urunler" element={<TumUrunler />} />
+              <Route path="/demolar" element={<Demolar />} />
+              <Route path="/yeni-urunler" element={<YeniUrunler />} />
 
-            {/* Hizmetler route'ları */}
-            <Route path="/crm" element={<CRMCozumleri />} />
-            <Route path="/erp" element={<ERPSistemleri />} />
-            <Route path="/yazilim" element={<YazilimGelistirme />} />
-            <Route path="/entegrasyon" element={<EntegrasyonHizmetleri />} />
+              {/* Hizmetler route'ları */}
+              <Route path="/crm" element={<CRMCozumleri />} />
+              <Route path="/erp" element={<ERPSistemleri />} />
+              <Route path="/yazilim" element={<YazilimGelistirme />} />
+              <Route path="/entegrasyon" element={<EntegrasyonHizmetleri />} />
 
-            {/* Hakkımızda Sayfaları */}
-            <Route path="/hakkimizda/firma-hakkinda" element={<FirmaHakkinda />} />
-            <Route path="/hakkimizda/ekibimiz" element={<Ekibimiz />} />
-            <Route path="/hakkimizda/tarihce" element={<Tarihce />} />
-          </Routes>
-        </Suspense>
+              {/* Hakkımızda Sayfaları */}
+              <Route path="/hakkimizda/firma-hakkinda" element={<FirmaHakkinda />} />
+              <Route path="/hakkimizda/ekibimiz" element={<Ekibimiz />} />
+              <Route path="/hakkimizda/tarihce" element={<Tarihce />} />
+            </Routes>
+          </Suspense>
+          <Footer />
+        </div>
       </Router>
     </ThemeProvider>
   );

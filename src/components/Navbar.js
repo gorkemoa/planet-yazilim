@@ -23,7 +23,8 @@ import {
   FaNewspaper,
   FaVideo,
   FaFileAlt,
-  FaMapMarkerAlt
+  FaMapMarkerAlt,
+  FaChevronDown
 } from 'react-icons/fa';
 import { theme } from '../styles/GlobalStyles';
 import Container from './common/Container';
@@ -62,6 +63,14 @@ const Nav = styled(motion.nav)`
         : 'transparent'
     };
     transition: ${theme.transitions.default};
+  }
+
+  @media (max-width: ${theme.breakpoints.lg}) {
+    height: 70px;
+  }
+
+  @media (max-width: ${theme.breakpoints.sm}) {
+    height: 60px;
   }
 `;
 
@@ -255,10 +264,24 @@ const MobileMenuButton = styled.button`
   color: ${theme.colors.text};
   font-size: 1.5rem;
   cursor: pointer;
-  z-index: 1;
+  z-index: ${theme.zIndex.modal + 1};
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
 
   @media (max-width: ${theme.breakpoints.lg}) {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &:hover {
+    background: rgba(8, 252, 172, 0.1);
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
   }
 `;
 
@@ -268,78 +291,124 @@ const MobileMenu = styled(motion.div)`
   top: 0;
   right: 0;
   bottom: 0;
-  width: 300px;
+  width: min(85vw, 300px);
   background: ${theme.colors.background};
   backdrop-filter: blur(20px);
-  padding: ${theme.spacing.xl} ${theme.spacing.lg};
+  padding: ${theme.spacing.xl} ${theme.spacing.md};
   box-shadow: ${theme.shadows.large};
   border-left: 1px solid ${theme.colors.primary}20;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  z-index: ${theme.zIndex.modal};
 
   @media (max-width: ${theme.breakpoints.lg}) {
     display: block;
+  }
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: ${theme.colors.primary}20;
+    border-radius: 4px;
   }
 `;
 
 const MobileNavLinks = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${theme.spacing.md};
-  margin-top: ${theme.spacing.xl};
+  gap: ${theme.spacing.sm};
+  margin-top: ${theme.spacing.lg};
+  padding-bottom: ${theme.spacing.xl};
 `;
 
 const MobileNavLink = styled(Link)`
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem;
-  border-radius: 6px;
+  padding: 0.8rem;
+  border-radius: 8px;
   transition: all 0.3s ease;
+  background: rgba(8, 252, 172, 0.03);
+  position: relative;
+  justify-content: space-between;
 
-  &:hover {
+  .link-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .chevron {
+    transition: transform 0.3s ease;
+    color: ${theme.colors.primary};
+    opacity: 0.7;
+    font-size: 0.8rem;
+    transform: ${({ $isOpen }) => $isOpen ? 'rotate(180deg)' : 'rotate(0)'};
+  }
+
+  &:hover, &:active {
     color: #fff;
-    background: rgba(8, 252, 172, 0.05);
+    background: rgba(8, 252, 172, 0.08);
+    transform: translateX(4px);
 
     ${IconBox} {
       background: rgba(8, 252, 172, 0.2);
+      transform: scale(1.1);
+    }
+
+    .chevron {
+      opacity: 1;
     }
   }
 `;
 
-const MobileSubMenu = styled.div`
-  margin-left: 2rem;
-  margin-top: 0.5rem;
+const MobileSubMenu = styled(motion.div)`
+  margin-left: 1rem;
+  margin-top: 0.2rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.3rem;
+  padding: 0.3rem 0;
+  overflow: hidden;
 `;
 
 const MobileSubLink = styled(Link)`
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem;
+  padding: 0.6rem 0.8rem;
   border-radius: 6px;
   transition: all 0.3s ease;
 
-  &:hover {
+  &:hover, &:active {
     color: #fff;
     background: rgba(8, 252, 172, 0.05);
+    transform: translateX(4px);
 
     ${IconBox} {
-      background: rgba(8, 252, 172, 0.2);
+      background: rgba(8, 252, 172, 0.15);
+      transform: scale(1.1);
     }
   }
 
   small {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: rgba(255, 255, 255, 0.5);
     display: block;
+    margin-top: 0.2rem;
   }
 `;
 
@@ -541,6 +610,14 @@ const transformedMenuItems = menuItems.map(item => ({
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [openSubMenus, setOpenSubMenus] = useState({});
+
+  const toggleSubMenu = (title) => {
+    setOpenSubMenus(prev => ({
+      ...prev,
+      [title]: !prev[title]
+    }));
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -619,26 +696,53 @@ function Navbar() {
               <MobileNavLinks>
                 {transformedMenuItems.map((item) => (
                   <React.Fragment key={item.title}>
-                    <MobileNavLink to={item.href}>
-                      <IconBox>
-                        <item.icon />
-                      </IconBox>
-                      {item.title}
-                    </MobileNavLink>
-                    {item.items && item.items.length > 0 && (
-                      <MobileSubMenu>
-                        {item.items.map((subItem) => (
-                          <MobileSubLink key={subItem.title} to={subItem.href}>
+                    {item.items.length > 0 ? (
+                      <>
+                        <MobileNavLink
+                          as="div"
+                          onClick={() => toggleSubMenu(item.title)}
+                          $isOpen={openSubMenus[item.title]}
+                        >
+                          <div className="link-content">
                             <IconBox>
-                              <subItem.icon />
+                              <item.icon />
                             </IconBox>
-                            <div>
-                              {subItem.title}
-                              <small>{subItem.description}</small>
-                            </div>
-                          </MobileSubLink>
-                        ))}
-                      </MobileSubMenu>
+                            {item.title}
+                          </div>
+                          <FaChevronDown className="chevron" />
+                        </MobileNavLink>
+                        <AnimatePresence>
+                          {openSubMenus[item.title] && (
+                            <MobileSubMenu
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.3, ease: 'easeInOut' }}
+                            >
+                              {item.items.map((subItem) => (
+                                <MobileSubLink key={subItem.title} to={subItem.href}>
+                                  <IconBox>
+                                    <subItem.icon />
+                                  </IconBox>
+                                  <div>
+                                    {subItem.title}
+                                    <small>{subItem.description}</small>
+                                  </div>
+                                </MobileSubLink>
+                              ))}
+                            </MobileSubMenu>
+                          )}
+                        </AnimatePresence>
+                      </>
+                    ) : (
+                      <MobileNavLink to={item.href}>
+                        <div className="link-content">
+                          <IconBox>
+                            <item.icon />
+                          </IconBox>
+                          {item.title}
+                        </div>
+                      </MobileNavLink>
                     )}
                   </React.Fragment>
                 ))}

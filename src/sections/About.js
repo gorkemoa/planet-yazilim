@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useCallback } from 'react';
+import React, { memo, useMemo, useCallback, useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import Container from '../components/common/Container';
@@ -69,6 +69,10 @@ const AboutSection = styled.section`
   display: flex;
   align-items: center;
   padding: 4rem 0;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000;
+  will-change: transform;
 
   &::before {
     content: '';
@@ -79,7 +83,11 @@ const AboutSection = styled.section`
     background-position: right center;
     opacity: 0.8;
     z-index: -2;
-    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
   }
 
   &::after {
@@ -95,6 +103,11 @@ const AboutSection = styled.section`
     );
     z-index: -1;
   }
+
+  @media (max-width: 768px) {
+    padding: 3rem 0;
+    min-height: auto;
+  }
 `;
 
 const ContentWrapper = styled.div`
@@ -102,25 +115,11 @@ const ContentWrapper = styled.div`
   z-index: 2;
   width: 100%;
   margin: 0 auto;
-  padding: 2rem;
-  max-width: 1800px;
-
-  &::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at 50% 50%, rgba(8, 252, 172, 0.1) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: -1;
-    animation: pulseGlow 8s ease-in-out infinite;
-  }
-
-  @keyframes pulseGlow {
-    0%, 100% { transform: scale(1); opacity: 0.5; }
-    50% { transform: scale(1.5); opacity: 0.2; }
+  padding: 0 2rem;
+  max-width: 1400px;
+  
+  @media (max-width: 768px) {
+    padding: 0 1rem;
   }
 `;
 
@@ -134,7 +133,17 @@ const Title = styled(motion.h1)`
   background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.9) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 30px rgba(8, 252, 172, 0.3);
+
+  @media (max-width: 768px) {
+    font-size: clamp(1.8rem, 3.5vw, 2.2rem);
+    margin-bottom: 1.5rem;
+    padding: 0 1rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: clamp(1.6rem, 3vw, 1.8rem);
+    margin-bottom: 1rem;
+  }
 `;
 
 const Description = styled(motion.p)`
@@ -146,6 +155,19 @@ const Description = styled(motion.p)`
   margin: 0 auto 4rem;
   font-weight: 400;
   letter-spacing: 0.01em;
+
+  @media (max-width: 768px) {
+    font-size: clamp(0.9rem, 1.1vw, 1rem);
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+    max-width: 100%;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
 `;
 
 const FeatureGrid = styled.div`
@@ -154,6 +176,11 @@ const FeatureGrid = styled.div`
   gap: 3rem;
   margin-top: 4rem;
   width: 100%;
+
+  @media (max-width: 768px) {
+    gap: 2rem;
+    margin-top: 2rem;
+  }
 `;
 
 const FeatureInfo = styled.div`
@@ -210,7 +237,6 @@ const FeatureTitle = styled.h3`
     position: absolute;
     left: 0;
     top: 0;
-    color: rgba(8, 252, 172, 0.4);
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
     transform: translateZ(-1px);
     opacity: 0;
@@ -226,11 +252,9 @@ const FeatureTitle = styled.h3`
     height: 2px;
     background: linear-gradient(90deg, rgba(8, 252, 172, 0) 0%, rgba(8, 252, 172, 0.8) 50%, rgba(8, 252, 172, 0) 100%);
     transition: width 0.6s ease;
-    box-shadow: 0 0 20px rgba(8, 252, 172, 0.6);
   }
 
   ${FeatureInfo}:hover & {
-    text-shadow: 0 0 40px rgba(8, 252, 172, 0.6);
     transform: translateZ(30px);
     
     &::before {
@@ -243,7 +267,14 @@ const FeatureTitle = styled.h3`
   }
 
   @media (max-width: 768px) {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.4rem;
+    margin-bottom: 0.4rem;
   }
 `;
 
@@ -265,8 +296,15 @@ const FeatureDescription = styled.p`
   }
 
   @media (max-width: 768px) {
-    font-size: 1rem;
-    line-height: 1.5;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    max-width: 100%;
+    letter-spacing: 0;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.85rem;
+    line-height: 1.35;
   }
 `;
 
@@ -281,8 +319,6 @@ const MainFeature = styled(motion.div)`
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
-  cursor: pointer;
-  transition: all 0.4s ease-in-out;
   border: 1px solid rgba(8, 252, 172, 0.1);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -290,9 +326,11 @@ const MainFeature = styled(motion.div)`
   width: 80vw;
   margin-left: calc(-40vw + 50%);
   margin-right: calc(-40vw + 50%);
-  box-shadow: 
-    0 0 40px rgba(8, 252, 172, 0.05),
-    inset 0 0 0 1px rgba(8, 252, 172, 0.1);
+  box-shadow: 0 0 40px rgba(8, 252, 172, 0.05);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000;
+  will-change: transform;
 
   ${FeatureInfo} {
     padding: 2rem;
@@ -310,9 +348,14 @@ const MainFeature = styled(motion.div)`
     background-image: url('/images/fikir.jpeg');
     background-size: cover;
     background-position: center;
-    opacity: 1;
-    transition: all 0.4s ease-in-out;
+    opacity: 0.9;
     z-index: -1;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    transition: opacity 0.3s ease;
   }
 
   &::after {
@@ -329,230 +372,277 @@ const MainFeature = styled(motion.div)`
       rgba(0, 0, 0, 0) 100%
     );
     z-index: -1;
-    transition: all 0.4s ease-in-out;
-  }
-
-  &:hover {
-    transform: translateX(-10px) translateY(-5px);
-    border-color: rgba(8, 252, 172, 0.2);
-    box-shadow: 
-      0 10px 40px rgba(8, 252, 172, 0.1),
-      inset 0 0 0 1px rgba(8, 252, 172, 0.15);
-
-    &::before {
-      opacity: 0.9;
-      transform: scale(1.05);
-    }
   }
 
   @media (max-width: 768px) {
-    padding: 2rem;
-    min-height: 300px;
+    padding: 1.5rem;
+    min-height: 220px;
+    width: 94vw;
+    margin-left: calc(-47vw + 50%);
+    margin-right: calc(-47vw + 50%);
+    
+    ${FeatureInfo} {
+      padding: 1rem;
+      max-width: 100%;
+    }
+
+    ${FeatureTitle} {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    ${FeatureDescription} {
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 1.2rem;
+    min-height: 200px;
+    width: 96vw;
+    margin-left: calc(-48vw + 50%);
+    margin-right: calc(-48vw + 50%);
+    
+    ${FeatureInfo} {
+      padding: 0.8rem;
+    }
+
+    ${FeatureTitle} {
+      font-size: 1.3rem;
+      margin-bottom: 0.4rem;
+    }
+
+    ${FeatureDescription} {
+      font-size: 0.85rem;
+      line-height: 1.35;
+    }
   }
 `;
 
 const SubFeatures = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 3rem;
-  width: 98vw;
-  margin-left: calc(-49vw + 50%);
-  margin-right: calc(-49vw + 50%);
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
   padding: 0 4rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
-  @media (max-width: 1024px) {
-    grid-template-columns: repeat(2, 1fr);
-    padding: 0 3rem;
-    gap: 2.5rem;
+  & > * {
+    scroll-snap-align: start;
+  }
+
+  @media (max-width: 1400px) {
+    padding: 0 2rem;
+    gap: 1.5rem;
+    scroll-padding: 2rem;
   }
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    padding: 0 2rem;
-    width: 92vw;
-    margin-left: calc(-46vw + 50%);
-    margin-right: calc(-46vw + 50%);
-    gap: 2rem;
+    flex-direction: column;
+    padding: 0 1rem;
+    gap: 1.5rem;
+    overflow-x: visible;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    align-items: center;
   }
 `;
 
 const SubFeatureBox = styled(motion.div)`
   position: relative;
-  padding: 2rem;
-  background: transparent;
-  border-radius: 40px;
+  padding: 2.5rem 3.5rem;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(8, 252, 172, 0.8) 100%
+  );
+  border-radius: 24px;
   overflow: hidden;
-  min-height: 380px;
+  min-height: 200px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: flex-start;
-  cursor: pointer;
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(8, 252, 172, 0.3);
-  isolation: isolate;
-  transform-style: preserve-3d;
+  justify-content: center;
+  border: 3px solid rgba(8, 252, 172, 0.4);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 0, 0, 0.35);
+  flex: 1;
+  min-width: 320px;
+  max-width: 520px;
+  transition: all 0.3s ease;
+  aspect-ratio: 16/9;
   transform: translateZ(0);
-  -webkit-transform: translateZ(0);
   backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  box-shadow: 
-    0 0 40px rgba(8, 252, 172, 0.15),
-    inset 0 0 0 1px rgba(8, 252, 172, 0.2),
-    0 10px 40px rgba(0, 0, 0, 0.2),
-    0 0 20px rgba(8, 252, 172, 0.2),
-    inset 0 0 30px rgba(8, 252, 172, 0.1);
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: ${props => `url('/images/${props.bgImage}')`};
-    background-size: cover;
-    background-position: center;
-    opacity: 0.95;
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: -1;
-    transform-origin: center;
-    filter: saturate(1.1) contrast(1.1);
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to top,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0) 25%,
-      rgba(0, 0, 0, 0.6) 35%,
-      rgba(0, 0, 0, 0.8) 45%,
-      rgba(0, 0, 0, 0.9) 55%,
-      rgba(0, 0, 0, 0.95) 75%,
-      rgba(0, 0, 0, 1) 100%
-    );
-    z-index: -1;
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
-  }
+  perspective: 1000;
+  will-change: transform;
 
   &:hover {
-    transform: translateY(-15px);
-    border-color: rgba(8, 252, 172, 0.6);
-    box-shadow: 
-      0 25px 70px rgba(8, 252, 172, 0.3),
-      inset 0 0 0 1.5px rgba(8, 252, 172, 0.6),
-      0 20px 60px rgba(0, 0, 0, 0.4),
-      0 0 40px rgba(8, 252, 172, 0.4),
-      inset 0 0 50px rgba(8, 252, 172, 0.2);
-
-    &::before {
-      transform: scale(1.05);
-      opacity: 1;
-      filter: saturate(1.2) contrast(1.15) brightness(1.1);
-    }
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6), inset 0 0 25px rgba(0, 0, 0, 0.4);
+    border: 3px solid rgba(8, 252, 172, 0.5);
   }
 
   @media (max-width: 768px) {
+    min-width: 100%;
+    max-width: 100%;
+    aspect-ratio: 16/7;
+    padding: 1.8rem;
+    margin: 0;
+    
+    &:hover {
+      transform: translateY(-3px) scale(1.02);
+    }
+  }
+
+  @media (max-width: 480px) {
+    aspect-ratio: 16/8;
     padding: 1.5rem;
-    min-height: 320px;
+    min-height: 160px;
   }
 `;
 
 const About = memo(() => {
-  // Feature data'sını useMemo ile optimize ediyoruz
+  const sectionRef = useRef(null);
+  const featuresRef = useRef(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const features = featuresRef.current;
+    
+    if (!section || !features) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.willChange = 'transform, opacity';
+            setIsInView(true);
+          } else {
+            entry.target.style.willChange = 'auto';
+          }
+        });
+      },
+      { 
+        threshold: 0.1,
+        rootMargin: '50px'
+      }
+    );
+
+    observer.observe(section);
+    observer.observe(features);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   const features = useMemo(() => [
     {
       id: 'main',
-      title: 'Sektörün Öncü Yazılım Şirketi',
-      description: 'Türkiye\'nin en büyük 500 şirketinin tercihi olan Planet Yazılım, yenilikçi çözümleri ve güçlü teknik altyapısı ile fark yaratıyor.',
+      title: 'Dijital Dönüşümün Güvenilir Adresi',
+      description: 'Türkiye\'nin önde gelen şirketlerine 20 yıldır kesintisiz teknoloji ve danışmanlık hizmeti.',
       animation: animations.slideInLeft
     },
     {
-      id: 'customer',
-      title: '%99.9 Müşteri Memnuniyeti',
-      description: 'Uzman ekibimiz ve 7/24 teknik destek hizmetimiz ile müşterilerimize kesintisiz çözümler sunuyoruz.',
-      image: 'foto1.webp',
+      id: 'projects',
+      title: 'Sektörde Kritik Başarı',
+      description: 'Araştırmalara göre IT projelerinin %80\'i başarısız olurken, biz fark yaratıyoruz. *Gartner',
+      animation: animations.slideInUp,
+      delay: 0.2
+    },
+    {
+      id: 'success',
+      title: 'Kanıtlanmış Başarı',
+      description: 'Her projemizde %100 müşteri memnuniyeti ve sürdürülebilir başarı.',
       animation: animations.slideInUp,
       delay: 0.3
     },
     {
-      id: 'projects',
-      title: '500+ Başarılı Proje',
-      description: 'Farklı sektörlerde geliştirdiğimiz projeler ve başarı hikayelerimiz ile işletmenizin dijital dönüşümüne öncülük ediyoruz.',
-      image: 'foto2.jpeg',
+      id: 'satisfaction',
+      title: 'Güvenilir Çözüm Ortağı',
+      description: '%99.9 müşteri memnuniyeti ile sektörün en güvenilir teknoloji partneri.',
       animation: animations.slideInUp,
       delay: 0.4
-    },
-    {
-      id: 'experience',
-      title: '20 Yıllık Deneyim',
-      description: 'Yazılım sektöründeki 20 yıllık deneyimimiz ve uzman kadromuz ile işletmenize özel, yenilikçi çözümler sunuyoruz.',
-      image: 'foto3.webp',
-      animation: animations.slideInUp,
-      delay: 0.5
     }
   ], []);
 
-  // Feature kartı render fonksiyonu
-  const renderFeatureCard = useCallback(({ id, title, description, image, animation, delay }) => (
+  const renderFeatureCard = useCallback(({ id, title, description, animation, delay }) => (
     <SubFeatureBox
       key={id}
-      bgImage={image}
       initial="hidden"
-      animate="visible"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-50px" }}
       variants={animation}
-      transition={{ duration: 0.6, delay }}
+      transition={{ 
+        duration: 0.5,
+        delay: isInView ? delay : 0,
+        ease: [0.4, 0, 0.2, 1]
+      }}
     >
       <FeatureInfo>
         <FeatureTitle>{title}</FeatureTitle>
         <FeatureDescription>{description}</FeatureDescription>
       </FeatureInfo>
     </SubFeatureBox>
-  ), []);
+  ), [isInView]);
 
   return (
-    <AboutSection>
-      <Container>
-        <ContentWrapper>
-          <Title
+    <AboutSection ref={sectionRef}>
+      <ContentWrapper>
+        <Title
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={animations.fadeInUp}
+          transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+        >
+          Neden Planet?
+        </Title>
+
+        <Description
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={animations.fadeInUp}
+          transition={{ duration: 0.5, delay: 0.1, ease: [0.4, 0, 0.2, 1] }}
+        >
+          İşletmenizin dijital dönüşüm yolculuğunda, yenilikçi çözümler ve 
+          kanıtlanmış başarılarla yanınızdayız.
+        </Description>
+
+        <FeatureGrid ref={featuresRef}>
+          <MainFeature
             initial="hidden"
-            animate="visible"
-            variants={animations.fadeInUp}
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            variants={features[0].animation}
+            transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
           >
-            Neden Planet?
-          </Title>
+            <FeatureInfo>
+              <FeatureTitle>{features[0].title}</FeatureTitle>
+              <FeatureDescription>{features[0].description}</FeatureDescription>
+            </FeatureInfo>
+          </MainFeature>
 
-          <Description
-            initial="hidden"
-            animate="visible"
-            variants={animations.fadeInUp}
-          >
-            20 yıllık sektör deneyimi ve 500'den fazla başarılı proje ile
-            işletmenizin dijital dönüşümünde güvenilir çözüm ortağınız.
-          </Description>
-
-          <FeatureGrid>
-            <MainFeature
-              initial="hidden"
-              animate="visible"
-              variants={features[0].animation}
-            >
-              <FeatureInfo>
-                <FeatureTitle>{features[0].title}</FeatureTitle>
-                <FeatureDescription>{features[0].description}</FeatureDescription>
-              </FeatureInfo>
-            </MainFeature>
-
-            <SubFeatures>
-              {features.slice(1).map(renderFeatureCard)}
-            </SubFeatures>
-          </FeatureGrid>
-        </ContentWrapper>
-      </Container>
+          <SubFeatures>
+            {features.slice(1).map(renderFeatureCard)}
+          </SubFeatures>
+        </FeatureGrid>
+      </ContentWrapper>
     </AboutSection>
   );
 });

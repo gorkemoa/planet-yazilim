@@ -198,6 +198,10 @@ const ServicesGrid = styled(motion.div)`
   @media (max-width: 768px) {
     grid-template-columns: minmax(280px, 340px);
   }
+
+  @media (max-width: 480px) {
+    grid-template-columns: minmax(260px, 320px);
+  }
 `;
 
 const ServiceCard = styled(motion.div)`

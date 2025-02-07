@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import Container from '../components/common/Container';
@@ -16,6 +16,9 @@ const ServicesSection = styled.section`
   );
   position: relative;
   overflow: hidden;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000;
   will-change: transform;
 
   &::before {
@@ -50,6 +53,12 @@ const ServicesSection = styled.section`
     animation: shiftGradient 15s ease-in-out infinite alternate;
   }
 
+  &::before, &::after {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+  }
+
   @keyframes pulseGradient {
     0%, 100% { opacity: 0.2; }
     50% { opacity: 0.5; }
@@ -58,6 +67,10 @@ const ServicesSection = styled.section`
   @keyframes shiftGradient {
     0% { transform: translateX(-20%) translateY(-20%) rotate(0deg); opacity: 0.3; }
     100% { transform: translateX(20%) translateY(20%) rotate(180deg); opacity: 0.6; }
+  }
+
+  @media (max-width: ${theme.breakpoints.sm}) {
+    padding: ${theme.spacing.xl} 0;
   }
 `;
 
@@ -95,6 +108,12 @@ const ContentWrapper = styled.div`
   @media (max-width: ${theme.breakpoints.lg}) {
     grid-template-columns: 1fr;
     gap: 2rem;
+    padding: 1rem 0;
+  }
+
+  @media (max-width: ${theme.breakpoints.sm}) {
+    gap: 1.5rem;
+    padding: 0.5rem 0;
   }
 `;
 
@@ -111,27 +130,30 @@ const ImageSection = styled.div`
     0 0 80px ${theme.colors.primary}20,
     0 0 100px ${theme.colors.primary}10;
   animation: neonPulse 2s ease-in-out infinite;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
   
   @media (max-width: ${theme.breakpoints.lg}) {
-    min-height: 300px;
+    min-height: 250px;
+  }
+
+  @media (max-width: ${theme.breakpoints.sm}) {
+    min-height: 200px;
   }
 
   @keyframes neonPulse {
     0%, 100% {
       box-shadow:
-        0 0 20px ${theme.colors.primary}60,
-        0 0 40px ${theme.colors.primary}40,
-        0 0 60px ${theme.colors.primary}30,
-        0 0 80px ${theme.colors.primary}20,
-        0 0 100px ${theme.colors.primary}10;
+        0 0 10px ${theme.colors.primary}40,
+        0 0 20px ${theme.colors.primary}30,
+        0 0 30px ${theme.colors.primary}20;
     }
     50% {
       box-shadow:
-        0 0 30px ${theme.colors.primary}80,
-        0 0 50px ${theme.colors.primary}60,
-        0 0 70px ${theme.colors.primary}40,
-        0 0 90px ${theme.colors.primary}30,
-        0 0 110px ${theme.colors.primary}20;
+        0 0 15px ${theme.colors.primary}60,
+        0 0 25px ${theme.colors.primary}40,
+        0 0 35px ${theme.colors.primary}30;
     }
   }
 
@@ -259,18 +281,22 @@ const ServicesGrid = styled.div`
 
   @media (max-width: ${theme.breakpoints.xl}) {
     grid-template-columns: repeat(4, 1fr);
+    gap: 0.8rem;
   }
 
   @media (max-width: ${theme.breakpoints.lg}) {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.8rem;
   }
 
   @media (max-width: ${theme.breakpoints.md}) {
     grid-template-columns: repeat(3, 1fr);
+    gap: 0.7rem;
   }
 
   @media (max-width: ${theme.breakpoints.sm}) {
     grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
   }
 `;
 
@@ -286,6 +312,8 @@ const IconWrapper = styled.div`
   z-index: 1;
   border-radius: 50%;
   background: rgba(8, 252, 172, 0.05);
+  transform: translateZ(0);
+  will-change: transform;
 
   &::before {
     content: '';
@@ -314,6 +342,17 @@ const IconWrapper = styled.div`
     color: rgba(8, 252, 172, 0.9);
     transition: all 0.5s ease;
   }
+
+  @media (max-width: ${theme.breakpoints.sm}) {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 0.5rem;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
 `;
 
 const ServiceName = styled.h3`
@@ -324,6 +363,10 @@ const ServiceName = styled.h3`
   transition: all 0.3s ease;
   position: relative;
   z-index: 1;
+
+  @media (max-width: ${theme.breakpoints.sm}) {
+    font-size: 0.75rem;
+  }
 `;
 
 const ServiceCard = styled(motion.div)`
@@ -344,6 +387,9 @@ const ServiceCard = styled(motion.div)`
   overflow: hidden;
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 15px rgba(8, 252, 172, 0.05);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
 
   &::before {
     content: '';
@@ -420,6 +466,17 @@ const ServiceCard = styled(motion.div)`
       text-shadow: 0 0 20px rgba(8, 252, 172, 0.3);
     }
   }
+
+  @media (max-width: ${theme.breakpoints.sm}) {
+    padding: ${theme.spacing.sm};
+
+    &:hover {
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 
+        0 4px 15px rgba(8, 252, 172, 0.08),
+        0 0 0 1px rgba(8, 252, 172, 0.1);
+    }
+  }
 `;
 
 const sectors = [
@@ -455,9 +512,46 @@ const containerVariants = {
 
 const Services = memo(() => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [isInView, setIsInView] = useState(false);
+  const sectionRef = useRef(null);
+  const gridRef = useRef(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const grid = gridRef.current;
+    
+    if (!section || !grid) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.willChange = 'transform, opacity';
+            setIsInView(true);
+          } else {
+            entry.target.style.willChange = 'auto';
+          }
+        });
+      },
+      { 
+        threshold: 0.1,
+        rootMargin: '50px'
+      }
+    );
+
+    observer.observe(section);
+    observer.observe(grid);
+
+    return () => observer.disconnect();
+  }, []);
+
+  const handleHover = useCallback((index) => {
+    if (window.innerWidth <= 768) return;
+    setHoveredIndex(index);
+  }, []);
 
   return (
-    <ServicesSection id="sektorler">
+    <ServicesSection id="sektorler" ref={sectionRef}>
       <Container>
         <ContentWrapper>
           <ImageSection>
@@ -473,8 +567,8 @@ const Services = memo(() => {
               variants={fadeInUpVariants}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
             >
               SEKTÖRLERİMİZ
             </Title>
@@ -484,7 +578,8 @@ const Services = memo(() => {
               variants={containerVariants}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-50px" }}
+              ref={gridRef}
             >
               {sectors.map((sector, index) => (
                 <ServiceCard
@@ -492,12 +587,12 @@ const Services = memo(() => {
                   variants={fadeInUpVariants}
                   transition={{ 
                     duration: 0.4,
-                    ease: "easeOut",
-                    delay: index * 0.05
+                    ease: [0.4, 0, 0.2, 1],
+                    delay: isInView ? index * 0.05 : 0
                   }}
-                  whileHover={{ scale: 1.02 }}
-                  onHoverStart={() => setHoveredIndex(index)}
-                  onHoverEnd={() => setHoveredIndex(null)}
+                  whileHover={{ scale: window.innerWidth > 768 ? 1.02 : 1 }}
+                  onHoverStart={() => handleHover(index)}
+                  onHoverEnd={() => handleHover(null)}
                 >
                   <IconWrapper>
                     <sector.icon />

@@ -41,9 +41,10 @@ const VideoBackground = styled.div`
     width: auto;
     height: auto;
     object-fit: cover;
-    filter: brightness(0.5) contrast(1.2) saturate(1.2);
+    filter: brightness(0.6) contrast(1.1) saturate(1.1);
     will-change: transform;
     z-index: 0;
+    loading: 'lazy';
   }
 `;
 
@@ -94,6 +95,12 @@ const Title = styled(motion.div)`
       font-size: clamp(2rem, 4vw, 3.5rem);
     }
   }
+
+  @media (max-width: 480px) {
+    h1 {
+      font-size: 2rem;
+    }
+  }
 `;
 
 const Description = styled(motion.div)`
@@ -111,6 +118,15 @@ const Description = styled(motion.div)`
     color: #fff;
     font-weight: 600;
   }
+
+  @media (max-width: 480px) {
+    p {
+      font-size: 0.9rem;
+    }
+    .highlight {
+      font-size: 1rem;
+    }
+  }
 `;
 
 const ButtonGroup = styled(motion.div)`
@@ -121,6 +137,11 @@ const ButtonGroup = styled(motion.div)`
   @media (max-width: ${theme.breakpoints.md}) {
     flex-direction: column;
     width: fit-content;
+  }
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: center;
   }
 `;
 

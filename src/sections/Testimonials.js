@@ -79,38 +79,26 @@ const LeftContent = styled.div`
 `;
 
 const Title = styled(motion.h2)`
-  font-size: clamp(1.5rem, 6vw, 3.5rem);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  color: #fff;
+  text-align: left;
+  margin-bottom: ${theme.spacing.md};
   font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.2;
   background: linear-gradient(to right, #fff, ${theme.colors.primary});
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: clamp(1rem, 3vw, 2rem);
   text-shadow: 0 0 30px rgba(8, 252, 172, 0.3);
-  line-height: 1.2;
-  padding: 0;
-  max-width: 100%;
-  word-wrap: break-word;
-  hyphens: auto;
-  overflow-wrap: break-word;
-  display: block;
-  width: 100%;
-
+  
   @media (max-width: 1024px) {
-    font-size: min(max(1.6rem, 4.5vw), 2.8rem);
-    line-height: 1.3;
+    font-size: clamp(2rem, 4vw, 3rem);
+    text-align: center;
   }
 
   @media (max-width: 768px) {
-    font-size: min(max(1.4rem, 4vw), 2.2rem);
-    margin-bottom: 1.5rem;
-    line-height: 1.3;
-    padding: 0;
-  }
-
-  @media (max-width: 480px) {
-    font-size: min(max(1.2rem, 3.5vw), 1.8rem);
-    margin-bottom: 1rem;
-    line-height: 1.4;
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    margin-bottom: ${theme.spacing.sm};
   }
 `;
 
@@ -564,7 +552,8 @@ const Testimonials = memo(() => {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              Müşteri Memnuniyeti Bizim İçin Öncelik
+              Müşterilerimizin<br />
+              Başarı Hikayeleri
             </Title>
             <Description
               initial={{ opacity: 0, y: 30 }}

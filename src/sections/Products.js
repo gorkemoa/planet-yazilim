@@ -84,8 +84,8 @@ const LogoWrapper = memo(styled(motion.div)`
   perspective: 1000;
   
   img {
-    width: 100%;
-    height: 100%;
+    width: 180%;
+    height: 180%;
     object-fit: contain;
     filter: grayscale(100%) brightness(1.2) contrast(1);
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -95,7 +95,7 @@ const LogoWrapper = memo(styled(motion.div)`
   }
 
   &:hover {
-    transform: translateY(-5px) scale(1.05);
+    transform: translateY(-5px);
     border-color: ${theme.colors.primary};
     background: rgba(255, 255, 255, 0.15);
     box-shadow: 
@@ -107,10 +107,10 @@ const LogoWrapper = memo(styled(motion.div)`
     z-index: 10;
     
     img {
-      width: 110%;
-      height: 110%;
+      width: 200%;
+      height: 200%;
       filter: grayscale(0%) brightness(1.1) contrast(1.1);
-      transform: scale(1.05);
+      transform: scale(1.2);
       opacity: 1;
       padding: 0;
     }

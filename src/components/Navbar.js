@@ -548,12 +548,6 @@ const menuItems = [
         icon: FaChartLine,
         href: '/referanslar/basari-hikayeleri'
       },
-      {
-        title: 'Sektörel Referanslar',
-        description: 'Sektöre özel çözüm örnekleri',
-        icon: FaIndustry,
-        href: '/referanslar/sektorel-referanslar'
-      }
     ]
   },
   /*{
@@ -585,15 +579,8 @@ const menuItems = [
     title: 'İLETİŞİM',
     icon: FaPhoneAlt,
     href: '/iletisim-bilgileri',
-    items: [
-      {
-        title: 'İletişim Bilgileri',
-        description: 'Telefon ve e-posta',
-        icon: FaPhoneAlt,
-        href: '/iletisim-bilgileri'
-      },
-    ]
-  }
+    items: []
+  },
 ];
 
 // Sayfa geçişlerinde scroll'u en üste taşıyan fonksiyon

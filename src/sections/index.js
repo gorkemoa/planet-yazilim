@@ -313,35 +313,35 @@ export function Partners() {
 const references = [
   {
     name: 'Referans 1',
-    logo: '/references/1.png'
+    logo: '/logos/logoipsum-344.svg'
   },
   {
     name: 'Referans 2',
-    logo: '/references/2.png'
+    logo: '/logos/logoipsum-349.svg'
   },
   {
     name: 'Referans 3',
-    logo: '/references/3.png'
+    logo: '/logos/logoipsum-350.svg'
   },
   {
     name: 'Referans 4',
-    logo: '/references/4.png'
+    logo: '/logos/logoipsum-356.svg'
   },
   {
     name: 'Referans 5',
-    logo: '/references/5.png'
+    logo: '/logos/logoipsum-360.svg'
   },
   {
     name: 'Referans 6',
-    logo: '/references/6.png'
+    logo: '/logos/logoipsum-362.svg'
   },
   {
     name: 'Referans 7',
-    logo: '/references/7.png'
+    logo: '/logos/logoipsum-364.svg'
   },
   {
     name: 'Referans 8',
-    logo: '/references/8.png'
+    logo: '/logos/logoipsum-366.svg'
   }
 ];
 
@@ -1210,6 +1210,12 @@ const SolutionsGrid = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
+  
+  @media (max-width: ${theme.breakpoints.sm}) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1rem;
+  }
 `;
 
 const SolutionCard = styled(motion.div)`
@@ -1219,25 +1225,98 @@ const SolutionCard = styled(motion.div)`
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(10px);
-  transition: transform 0.3s ease, background-color 0.3s ease;
+  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
   isolation: isolate;
   z-index: 1;
-  will-change: transform;
+  will-change: transform, box-shadow;
   transform: translateZ(0);
   backface-visibility: hidden;
   perspective: 1000;
+  box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(8, 252, 172, 0.1);
+  
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+      800px circle at var(--mouse-x) var(--mouse-y),
+      rgba(8, 252, 172, 0.1),
+      transparent 40%
+    );
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  
+  &:after {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    right: -100%;
+    bottom: -100%;
+    background: linear-gradient(
+      135deg,
+      transparent 0%,
+      rgba(8, 252, 172, 0.05) 50%,
+      transparent 100%
+    );
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    transform: rotate(45deg);
+    pointer-events: none;
+    z-index: -1;
+    animation: shimmer 6s infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      opacity: 0;
+      transform: translateX(-150%) translateY(-150%) rotate(45deg);
+    }
+    15% {
+      opacity: 0.3;
+    }
+    30% {
+      opacity: 0;
+      transform: translateX(150%) translateY(150%) rotate(45deg);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(150%) translateY(150%) rotate(45deg);
+    }
+  }
 
   @media (hover: hover) {
     &:hover {
-      transform: translateY(-8px);
-      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-12px) perspective(1000px) rotateX(2deg);
+      background: rgba(255, 255, 255, 0.07);
+      box-shadow: 
+        0 15px 35px -10px rgba(0, 0, 0, 0.5),
+        0 0 15px rgba(8, 252, 172, 0.3);
+      border: 1px solid rgba(8, 252, 172, 0.2);
+      
+      &:before {
+        opacity: 1;
+      }
+      
+      &:after {
+        opacity: 0.5;
+      }
 
       ${props => props.$SolutionIconWrapper} {
-        transform: scale(1.1);
-        background: rgba(8, 252, 172, 0.15);
+        transform: scale(1.15) translateZ(20px);
+        background: rgba(8, 252, 172, 0.18);
+        box-shadow: 0 0 20px rgba(8, 252, 172, 0.4);
         
         svg {
           color: ${theme.colors.primary};
+          filter: drop-shadow(0 0 8px rgba(8, 252, 172, 0.6));
+          transform: scale(1.1);
         }
       }
     }
@@ -1246,9 +1325,11 @@ const SolutionCard = styled(motion.div)`
   @media (max-width: ${theme.breakpoints.sm}) {
     padding: 1.2rem;
     min-height: 180px;
+    border: 1px solid rgba(8, 252, 172, 0.08);
     
     &:active {
       transform: translateY(-4px);
+      box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.4);
     }
   }
 `;
@@ -1263,16 +1344,17 @@ const SolutionIconWrapper = styled.div`
   border-radius: 50%;
   background: rgba(8, 252, 172, 0.08);
   border: 1.5px solid rgba(8, 252, 172, 0.3);
-  transition: all 0.3s ease;
+  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
   position: relative;
   transform: translateZ(0);
   will-change: transform;
+  box-shadow: 0 0 15px rgba(8, 252, 172, 0.15);
 
   svg {
     width: clamp(24px, 4vw, 32px);
     height: clamp(24px, 4vw, 32px);
     color: rgba(255, 255, 255, 0.9);
-    transition: color 0.3s ease;
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
 
   @media (max-width: ${theme.breakpoints.sm}) {
@@ -1295,6 +1377,8 @@ const CardTitle = styled.h3`
   background: linear-gradient(to right, #fff, ${theme.colors.primary});
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 15px rgba(8, 252, 172, 0.2);
 
   @media (max-width: ${theme.breakpoints.sm}) {
     font-size: clamp(1.1rem, 2.5vw, 1.3rem);
@@ -1303,10 +1387,17 @@ const CardTitle = styled.h3`
 `;
 
 const CardText = styled.p`
-  font-size: clamp(0.9rem, 2vw, 1.05rem);
-  color: rgba(255, 255, 255, 0.75);
-  line-height: 1.6;
-
+  font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
+  position: relative;
+  text-shadow: 0 0 10px rgba(8, 252, 172, 0.05);
+  
+  ${SolutionCard}:hover & {
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
   @media (max-width: ${theme.breakpoints.sm}) {
     font-size: clamp(0.85rem, 1.8vw, 0.95rem);
     line-height: 1.5;
@@ -1383,6 +1474,33 @@ const Solutions = memo(() => {
       card.style.setProperty('--mouse-y', `${y}px`);
     });
   }, []);
+  
+  // Her kart için özel animasyon ayarları
+  const getCardAnimations = (index) => {
+    // Farklı gecikme süreleri
+    const delayBase = isInView ? index * 0.1 : 0;
+    
+    // Farklı animasyon varyasyonları için indekse göre stil
+    const variants = {
+      hidden: { 
+        opacity: 0, 
+        y: 20 + (index % 2) * 15, 
+        scale: 0.95 
+      },
+      visible: { 
+        opacity: 1, 
+        y: 0, 
+        scale: 1,
+        transition: { 
+          duration: 0.55, 
+          delay: delayBase,
+          ease: [0.25, 0.1, 0.25, 1.0]
+        }
+      }
+    };
+    
+    return variants;
+  };
 
   return (
     <LazyMotion features={domAnimation}>
@@ -1403,28 +1521,28 @@ const Solutions = memo(() => {
             transition={{ duration: 0.4, delay: 0.1, ease: [0.4, 0, 0.2, 1] }}
           />
           <SolutionsGrid ref={gridRef}>
-            {solutions.map((solution, index) => (
-              <SolutionCard
-                key={solution.title}
-                data-card
-                onMouseMove={handleMouseMove}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ 
-                  duration: 0.4, 
-                  delay: isInView ? index * 0.1 : 0,
-                  ease: [0.4, 0, 0.2, 1]
-                }}
-                $SolutionIconWrapper={SolutionIconWrapper}
-              >
-                <SolutionIconWrapper>
-                  <solution.icon />
-                </SolutionIconWrapper>
-                <CardTitle>{solution.title}</CardTitle>
-                <CardText>{solution.description}</CardText>
-              </SolutionCard>
-            ))}
+            {solutions.map((solution, index) => {
+              const variants = getCardAnimations(index);
+              
+              return (
+                <SolutionCard
+                  key={solution.title}
+                  data-card
+                  onMouseMove={handleMouseMove}
+                  variants={variants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-50px" }}
+                  $SolutionIconWrapper={SolutionIconWrapper}
+                >
+                  <SolutionIconWrapper>
+                    <solution.icon />
+                  </SolutionIconWrapper>
+                  <CardTitle>{solution.title}</CardTitle>
+                  <CardText>{solution.description}</CardText>
+                </SolutionCard>
+              );
+            })}
           </SolutionsGrid>
         </Container>
       </SolutionsSection>

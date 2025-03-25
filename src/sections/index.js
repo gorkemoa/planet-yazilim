@@ -1205,20 +1205,11 @@ const SolutionsSubtitle = styled(motion.div)`
 
 const SolutionsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-  gap: clamp(1rem, 3vw, 2rem);
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  padding: 0 1rem;
-  transform: translateZ(0);
-  will-change: transform;
-
-  @media (max-width: ${theme.breakpoints.sm}) {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    padding: 0 0.5rem;
-  }
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
 `;
 
 const SolutionCard = styled(motion.div)`

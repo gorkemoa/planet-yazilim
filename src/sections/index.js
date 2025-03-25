@@ -1748,6 +1748,7 @@ const TestimonialContainer = styled.div`
   height: 600px;
   perspective: 2000px;
   transform-style: preserve-3d;
+  overflow: visible;
 
   @media (max-width: 1024px) {
     height: 500px;
@@ -1759,8 +1760,9 @@ const TestimonialContainer = styled.div`
     perspective: none;
     transform-style: flat;
     min-height: 450px;
-    width: calc(100% - 0px);
-    margin: 0 auto;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
   }
 `;
 
@@ -1776,7 +1778,7 @@ const ScrollIndicator = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 10;
+  z-index: 20;
   border: 1px solid ${theme.colors.primary}30;
   transition: all 0.3s ease;
   box-shadow: 
@@ -1801,14 +1803,28 @@ const ScrollIndicator = styled.div`
   }
 
   &.left {
-    left: -25px;
+    left: 10px;
   }
 
   &.right {
-    right: -25px;
+    right: 10px;
   }
 
   @media (max-width: 768px) {
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.7);
+    
+    &.left {
+      left: 5px;
+    }
+    
+    &.right {
+      right: 5px;
+    }
+  }
+
+  @media (max-width: 480px) {
     display: none;
   }
 `;
@@ -1821,10 +1837,11 @@ const TestimonialSlider = styled.div`
   gap: 2rem;
   transform: rotateY(-20deg) translateZ(0);
   cursor: grab;
-  padding: 2rem;
+  padding: 2rem 4rem;
   overflow-x: auto;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -1839,11 +1856,13 @@ const TestimonialSlider = styled.div`
 
   @media (max-width: 768px) {
     transform: none;
-    padding: 1rem 0;
+    padding: 1rem 1.5rem;
     gap: 1rem;
     height: auto;
     scroll-snap-type: x mandatory;
     scroll-padding: 1rem;
+    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
   }
 `;
 
@@ -1861,6 +1880,9 @@ const TestimonialCard = styled(motion.div)`
     0 0 30px ${theme.colors.primary}10,
     inset 0 0 20px ${theme.colors.primary}05;
   transition: all 0.3s ease;
+  width: 350px;
+  min-width: 280px;
+  max-width: 400px;
 
   &::before {
     content: '';
@@ -1908,6 +1930,8 @@ const TestimonialCard = styled(motion.div)`
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transform: none;
     margin-right: 10px;
+    width: 85vw;
+    min-width: auto;
 
     &::before, &::after {
       display: none;
@@ -2114,6 +2138,33 @@ const Testimonials = memo(() => {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  // Her kart değişikliğinde active index'i güncelle
+  const updateActiveIndex = () => {
+    if (sliderRef.current) {
+      const scrollPosition = sliderRef.current.scrollLeft;
+      const cardWidth = sliderRef.current.querySelector('div').offsetWidth;
+      const gap = 32; // 2rem
+      const index = Math.round(scrollPosition / (cardWidth + gap));
+      setActiveIndex(index);
+    }
+  };
+
+  // Scroll olayını izle
+  useEffect(() => {
+    const slider = sliderRef.current;
+    if (slider) {
+      const handleScroll = () => {
+        updateActiveIndex();
+      };
+      
+      slider.addEventListener('scroll', handleScroll);
+      return () => {
+        slider.removeEventListener('scroll', handleScroll);
+      };
+    }
+  }, []);
 
   const handleDragStart = (e) => {
     setIsDragging(true);
@@ -2126,17 +2177,32 @@ const Testimonials = memo(() => {
     e.preventDefault();
     const x = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
     const walk = (x - startX) * 2;
-    sliderRef.current.scrollLeft = scrollLeft - walk;
+    if (sliderRef.current) {
+      sliderRef.current.scrollLeft = scrollLeft - walk;
+    }
   };
 
   const handleDragEnd = () => {
     setIsDragging(false);
+    if (sliderRef.current) {
+      updateActiveIndex();
+    }
   };
 
   const handleScroll = (direction) => {
     if (sliderRef.current) {
-      const scrollAmount = direction === 'left' ? -400 : 400;
-      sliderRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      const cardWidth = sliderRef.current.querySelector('div').offsetWidth;
+      const gap = 32; // 2rem gap
+      
+      let newIndex = direction === 'left' ? activeIndex - 1 : activeIndex + 1;
+      
+      // Sınırları kontrol et
+      if (newIndex < 0) newIndex = 0;
+      if (newIndex >= testimonials.length) newIndex = testimonials.length - 1;
+      
+      const scrollAmount = (cardWidth + gap) * newIndex;
+      sliderRef.current.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+      setActiveIndex(newIndex);
     }
   };
 

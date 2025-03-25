@@ -422,7 +422,6 @@ const menuItems = [
   {
     title: 'HAKKIMIZDA',
     icon: FaBuilding,
-    href: '/hakkimizda/firma-hakkinda',
     items: [
       {
         title: 'Firma Hakkında',
@@ -447,7 +446,6 @@ const menuItems = [
   {
     title: 'HİZMETLERİMİZ',
     icon: FaCogs,
-    href: '#hizmetler',
     items: [
       {
         title: 'Projelendirme',
@@ -478,7 +476,6 @@ const menuItems = [
   {
     title: 'ÜRÜNLER',
     icon: FaBoxOpen,
-    href: '/tum-urunler',
     items: [
       {
         title: 'Tüm Ürünler',
@@ -528,7 +525,6 @@ const menuItems = [
   {
     title: 'REFERANSLAR',
     icon: FaHandshake,
-    href: '/referanslar',
     items: [
       {
         title: 'Müşteri Yorumları',

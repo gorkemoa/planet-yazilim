@@ -626,7 +626,7 @@ function Navbar() {
     >
       <NavContainer>
         <Logo>
-          <img src="https://cdn.prod.website-files.com/656dddd9e3a697410a7d9441/65c57944bcebcfa17ad0716d_logo_orbify.webp" alt="Planet Yazılım Logo" />
+          <img src="/logos/Sagadayalıslogan-beyazorbitie.png" alt="Planet Yazılım Logo" link="/index.html" />
         </Logo>
 
         <NavLinks>

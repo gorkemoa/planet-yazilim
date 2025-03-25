@@ -4,17 +4,18 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { theme } from '../../styles/GlobalStyles';
 import Container from '../../components/common/Container';
 import { 
-  FaChevronRight, 
   FaSearch, 
   FaInfoCircle, 
   FaDownload,
   FaExternalLinkAlt,
-  FaChartLine,
-  FaUsers,
+  FaUser,
   FaCogs,
-  FaCloud,
-  FaMobile,
-  FaBox
+  FaShoppingBasket,
+  FaShoppingCart,
+  FaProjectDiagram,
+  FaFileArchive,
+  FaServer,
+  FaSellcast,
 } from 'react-icons/fa';
 
 const PageWrapper = styled(motion.div)`
@@ -388,12 +389,14 @@ const GlowingFeatureTag = styled(motion.span)`
 `;
 
 const categoryIcons = {
-  'ERP - Kurumsal Kaynak Planlama': FaCogs,
-  'İnsan Kaynakları ve CRM': FaUsers,
-  'E-Dönüşüm Çözümleri': FaCloud,
-  'Süreç ve Ürün Yönetimi': FaChartLine,
-  'Depo ve Lojistik Yönetimi': FaBox,
-  'Mobil Çözümler': FaMobile
+  'CPQ': FaCogs,
+  'CRM': FaUser,
+  'SATIN ALMA': FaShoppingCart,
+  'PROJE YÖNETİMİ': FaProjectDiagram,
+  'DOKÜMAN ARŞİVİ': FaFileArchive,
+  'NEXUS': FaSellcast,
+  'E-PAZAR': FaShoppingBasket,
+  'SERVİS(SSH)': FaServer,
 };
 
 const TumUrunler = () => {
@@ -401,8 +404,6 @@ const TumUrunler = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const { scrollYProgress } = useScroll();
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8]);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -417,7 +418,7 @@ const TumUrunler = () => {
 
   const productCategories = [
     {
-      title: 'ERP - Kurumsal Kaynak Planlama',
+      title: 'CPQ',
       stats: {
         clients: '500+',
         satisfaction: '98%',
@@ -448,7 +449,7 @@ const TumUrunler = () => {
       ]
     },
     {
-      title: 'İnsan Kaynakları ve CRM',
+      title: 'CRM',
       stats: {
         clients: '300+',
         satisfaction: '96%',
@@ -472,7 +473,7 @@ const TumUrunler = () => {
       ]
     },
     {
-      title: 'E-Dönüşüm Çözümleri',
+      title: 'E-PAZAR',
       stats: {
         clients: '1000+',
         satisfaction: '99%',
@@ -531,7 +532,7 @@ const TumUrunler = () => {
       ]
     },
     {
-      title: 'Süreç ve Ürün Yönetimi',
+      title: 'PROJE YÖNETİMİ',
       stats: {
         clients: '200+',
         satisfaction: '95%',
@@ -562,7 +563,7 @@ const TumUrunler = () => {
       ]
     },
     {
-      title: 'Depo ve Lojistik Yönetimi',
+      title: 'DOKÜMAN ARŞİVİ',
       stats: {
         clients: '150+',
         satisfaction: '97%',
@@ -586,7 +587,7 @@ const TumUrunler = () => {
       ]
     },
     {
-      title: 'Mobil Çözümler',
+      title: 'NEXUS',
       stats: {
         clients: '400+',
         satisfaction: '94%',
@@ -595,8 +596,25 @@ const TumUrunler = () => {
       products: [
         {
           id: 18,
-          title: 'Kuika Mobil Uygulamalar',
+          title: 'Kuika',
           description: 'Özelleştirilebilir mobil iş uygulamaları platformu',
+          image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800',
+          features: ['Hızlı Geliştirme', 'Cross-Platform', 'Özel Tasarım']
+        }
+      ]
+    },
+    {
+      title: 'SERVİS(SSH)',
+      stats: {
+        clients: '100+',
+        satisfaction: '93%',
+        updates: '6/yıl'
+      },
+      products: [
+        {
+          id: 19,
+          title: 'Logo Cloud',
+          description: 'Bulut tabanlı veri yönetimi çözümü',
           image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=800',
           features: ['Hızlı Geliştirme', 'Cross-Platform', 'Özel Tasarım']
         }

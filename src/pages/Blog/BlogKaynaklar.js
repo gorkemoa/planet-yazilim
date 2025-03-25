@@ -4,8 +4,10 @@ import { motion } from 'framer-motion';
 import { theme } from '../../styles/GlobalStyles';
 import Container from '../../components/common/Container';
 import { FaDownload, FaClock, FaUser, FaSearch, FaFileAlt } from 'react-icons/fa';
-import { articles } from '../../sections/LatestArticles';
+import Sections from '../../sections';
 import Navbar from '../../components/Navbar';
+
+const { articles } = Sections.LatestArticles;
 
 const BlogSection = styled.section`
   padding: ${theme.spacing.xxl} 0;

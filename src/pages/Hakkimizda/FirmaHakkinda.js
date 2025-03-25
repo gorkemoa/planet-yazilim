@@ -788,6 +788,24 @@ const InteractiveCard = styled(motion.div)`
   }
 `;
 
+const Footer = styled.div`
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 60px;
+  font-size: 0.8rem;
+  color: ${theme.colors.textLight};
+  opacity: 0.7;
+  
+  a {
+    color: ${theme.colors.primary};
+    text-decoration: none;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`;
+
 function FirmaHakkinda() {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
@@ -1061,6 +1079,10 @@ function FirmaHakkinda() {
           <QuoteAuthor>Ahmet Yılmaz - CEO & Kurucu</QuoteAuthor>
         </Quote>
       </Container>
+      
+      <Footer>
+        <p>Orbitie planet ürünüdür</p>
+      </Footer>
     </PageWrapper>
   );
 }

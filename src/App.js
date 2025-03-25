@@ -12,23 +12,15 @@ import FirmaHakkinda from './pages/Hakkimizda/FirmaHakkinda';
 import Ekibimiz from './pages/Hakkimizda/Ekibimiz';
 import Tarihce from './pages/Hakkimizda/Tarihce';
 
-// Lazy load components
-const Hero = lazy(() => import('./sections/Hero'));
-const About = lazy(() => import('./sections/About'));
-const Products = lazy(() => import('./sections/Products'));
-const Services = lazy(() => import('./sections/Services'));
-const Solutions = lazy(() => import('./sections/Solutions'));
-const LearnMore = lazy(() => import('./sections/LearnMore'));
-const Testimonials = lazy(() => import('./sections/Testimonials'));
-const LatestArticles = lazy(() => import('./sections/LatestArticles'));
+// Sections bileşenlerini import ediyoruz
+import Sections from './sections';
+
+// Diğer sayfalar için lazy loading
 const ContactPage = lazy(() => import('./pages/İletişim/ContactPage'));
-const LocationPage = lazy(() => import('./pages/İletişim/LocationPage'));
 
 // Referanslar sayfaları
 const BasariHikayeleri = lazy(() => import('./pages/Referanslar/BasariHikayeleri'));
-const SektorelReferanslar = lazy(() => import('./pages/Referanslar/SektorelReferanslar'));
 const MusteriYorumlari = lazy(() => import('./pages/Referanslar/MusteriYorumlari'));
-const VakaCalismalari = lazy(() => import('./pages/Referanslar/VakaCalismalari'));
 
 // Çözümler sayfaları
 const SektorelCozumler = lazy(() => import('./pages/Cozumler/SektorelCozumler'));
@@ -41,9 +33,9 @@ const Demolar = lazy(() => import('./pages/Urunler/Demolar'));
 const YeniUrunler = lazy(() => import('./pages/Urunler/YeniUrunler'));
 
 // Hizmetler sayfaları
-const CRMCozumleri = lazy(() => import('./pages/Hizmetler/CRMCozumleri'));
-const ERPSistemleri = lazy(() => import('./pages/Hizmetler/ERPSistemleri'));
-const YazilimGelistirme = lazy(() => import('./pages/Hizmetler/YazilimGelistirme'));
+const Projelendirme = lazy(() => import('./pages/Hizmetler/Projelendirme'));
+const UyarlamaSureci = lazy(() => import('./pages/Hizmetler/ERPSistemleri'));
+const DestekHizmetleri = lazy(() => import('./pages/Hizmetler/DestekHizmetleri'));
 const EntegrasyonHizmetleri = lazy(() => import('./pages/Hizmetler/EntegrasyonHizmetleri'));
 
 function App() {
@@ -56,25 +48,20 @@ function App() {
             <Routes>
               <Route path="/" element={
                 <main>
-                  <Hero />
-                  <About />
-                  <LearnMore />
-                  <Products />
-                  <Solutions />
-                  <Services />
-                  <Testimonials />
-                  <LatestArticles />
+                  <Sections.Hero />
+                  <Sections.Products />
+                  <Sections.Solutions />
+                  <Sections.Services />
+                  <Sections.Testimonials />
+                  <Sections.LatestArticles />
                 </main>
               } />
               <Route path="/iletisim-bilgileri" element={<ContactPage />} />
-              <Route path="/lokasyon" element={<LocationPage />} />
               <Route path="/blog/makaleler" element={<BlogMakaleler />} />
               <Route path="/blog/videolar" element={<BlogVideolar />} />
               <Route path="/blog/kaynaklar" element={<BlogKaynaklar />} />
               <Route path="/referanslar/basari-hikayeleri" element={<BasariHikayeleri />} />
-              <Route path="/referanslar/sektorel-referanslar" element={<SektorelReferanslar />} />
               <Route path="/referanslar/musteri-yorumlari" element={<MusteriYorumlari />} />
-              <Route path="/referanslar/vaka-calismalari" element={<VakaCalismalari />} />
               
               {/* Çözümler route'ları */}
               <Route path="/sektorel" element={<SektorelCozumler />} />
@@ -87,9 +74,9 @@ function App() {
               <Route path="/yeni-urunler" element={<YeniUrunler />} />
 
               {/* Hizmetler route'ları */}
-              <Route path="/crm" element={<CRMCozumleri />} />
-              <Route path="/erp" element={<ERPSistemleri />} />
-              <Route path="/yazilim" element={<YazilimGelistirme />} />
+              <Route path="/projelendirme" element={<Projelendirme />} />
+              <Route path="/uyarlama" element={<UyarlamaSureci />} />
+              <Route path="/destek" element={<DestekHizmetleri/>} />
               <Route path="/entegrasyon" element={<EntegrasyonHizmetleri />} />
 
               {/* Hakkımızda Sayfaları */}

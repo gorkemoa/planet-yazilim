@@ -450,28 +450,28 @@ const menuItems = [
     href: '#hizmetler',
     items: [
       {
-        title: 'CRM Çözümleri',
+        title: 'Projelendirme',
         description: 'Müşteri ilişkileri yönetimi',
         icon: FaUsers,
-        href: '/crm'
+        href: '/projelendirme'
       },
       {
-        title: 'ERP Sistemleri',
+        title: 'Uyarlama Süreci',
         description: 'Kurumsal kaynak planlaması',
         icon: FaRocket,
-        href: '/erp'
-      },
-      {
-        title: 'Yazılım Geliştirme',
-        description: 'Özel yazılım çözümleri',
-        icon: FaCode,
-        href: '/yazilim'
+        href: '/uyarlama'
       },
       {
         title: 'Entegrasyon Hizmetleri',
+        description: 'Sizin için özel yazılım çözümleri',
+        icon: FaCode,
+        href: '/entegrasyon'
+      },
+      {
+        title: 'Destek Hizmetleri',
         description: 'Sistem entegrasyonları',
         icon: FaIndustry,
-        href: '/entegrasyon'
+        href: '/destek'
       }
     ]
   },
@@ -500,7 +500,7 @@ const menuItems = [
       }
     ]
   },
-  {
+  /*{
     title: 'ÇÖZÜMLER',
     icon: FaLightbulb,
     href: '/sektorel',
@@ -524,7 +524,7 @@ const menuItems = [
         href: '/is-surecleri'
       }
     ]
-  },
+  },*/
   {
     title: 'REFERANSLAR',
     icon: FaHandshake,
@@ -556,7 +556,7 @@ const menuItems = [
       }
     ]
   },
-  {
+  /*{
     title: 'BLOG',
     icon: FaBook,
     href: '/blog',
@@ -580,7 +580,7 @@ const menuItems = [
         href: '/blog/kaynaklar'
       }
     ]
-  },
+  },*/
   {
     title: 'İLETİŞİM',
     icon: FaPhoneAlt,
@@ -592,20 +592,9 @@ const menuItems = [
         icon: FaPhoneAlt,
         href: '/iletisim-bilgileri'
       },
-      {
-        title: 'Lokasyon',
-        description: 'Ofis adresimiz',
-        icon: FaMapMarkerAlt,
-        href: '/lokasyon'
-      }
     ]
   }
 ];
-
-const transformedMenuItems = menuItems.map(item => ({
-  ...item,
-  title: item.title.replace(/İ/g, 'I').replace(/Ü/g, 'U').replace(/Ö/g, 'O'),
-}));
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -641,7 +630,7 @@ function Navbar() {
         </Logo>
 
         <NavLinks>
-          {transformedMenuItems.map((item) => (
+          {menuItems.map((item) => (
             item.items.length > 0 ? (
               <NavItem key={item.title}>
                 <NavLink to={item.href}>
@@ -677,7 +666,7 @@ function Navbar() {
             <IconBox>
               <FaHeadset />
             </IconBox>
-            DESTEK
+            DEMO
           </Button>
         </NavLinks>
 
@@ -694,7 +683,7 @@ function Navbar() {
               transition={{ type: 'tween' }}
             >
               <MobileNavLinks>
-                {transformedMenuItems.map((item) => (
+                {menuItems.map((item) => (
                   <React.Fragment key={item.title}>
                     {item.items.length > 0 ? (
                       <>
@@ -750,7 +739,7 @@ function Navbar() {
                   <IconBox>
                     <FaHeadset />
                   </IconBox>
-                  DESTEK
+                  DEMO
                 </Button>
               </MobileNavLinks>
             </MobileMenu>

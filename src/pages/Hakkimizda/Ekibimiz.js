@@ -103,7 +103,7 @@ const SocialLinks = styled.div`
 
 const teamMembers = [
   {
-    name: 'Ahmet Yılmaz',
+    name: 'Nuri',
     position: 'CEO & Kurucu',
     bio: '15+ yıllık yazılım ve teknoloji sektörü deneyimi. Dijital dönüşüm ve inovasyon konularında uzman.',
     image: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg',
@@ -114,7 +114,7 @@ const teamMembers = [
     }
   },
   {
-    name: 'Ayşe Kaya',
+    name: 'Berkan',
     position: 'CTO',
     bio: 'Yazılım mimarisi ve büyük ölçekli sistemler konusunda uzman. 12 yıllık sektör deneyimi.',
     image: 'https://images.pexels.com/photos/3796217/pexels-photo-3796217.jpeg',
@@ -125,7 +125,7 @@ const teamMembers = [
     }
   },
   {
-    name: 'Mehmet Demir',
+    name: 'Can',
     position: 'Ürün Müdürü',
     bio: 'Kullanıcı deneyimi ve ürün yönetimi konularında uzman. 8 yıllık ürün geliştirme deneyimi.',
     image: 'https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg',
@@ -136,7 +136,7 @@ const teamMembers = [
     }
   },
   {
-    name: 'Zeynep Şahin',
+    name: 'Bayram',
     position: 'Baş Yazılım Mimarı',
     bio: 'Mikroservis mimarisi ve cloud computing konularında uzman. 10 yıllık yazılım geliştirme deneyimi.',
     image: 'https://images.pexels.com/photos/3756679/pexels-photo-3756679.jpeg',
@@ -147,7 +147,7 @@ const teamMembers = [
     }
   },
   {
-    name: 'Can Özkan',
+    name: 'Damla Demir',
     position: 'Proje Müdürü',
     bio: 'Agile proje yönetimi ve takım liderliği konularında uzman. 7 yıllık proje yönetimi deneyimi.',
     image: 'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg',
@@ -158,10 +158,120 @@ const teamMembers = [
     }
   },
   {
-    name: 'Elif Yıldız',
+    name: 'Özgür Şahin',
     position: 'UX/UI Tasarım Lideri',
     bio: 'Kullanıcı arayüzü tasarımı ve kullanıcı deneyimi konularında uzman. 6 yıllık tasarım deneyimi.',
     image: 'https://images.pexels.com/photos/3727464/pexels-photo-3727464.jpeg',
+    social: {
+      linkedin: '#',
+      twitter: '#',
+      github: '#'
+    }
+  },
+  {
+    name: 'Damla',
+    position: 'Veri Bilimci',
+    bio: 'Yapay zeka ve makine öğrenmesi konularında uzman. 5 yıllık veri bilimi deneyimi.',
+    image: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg',
+    social: {
+      linkedin: '#',
+      twitter: '#',
+      github: '#'
+    }
+  },
+  {
+    name: 'Özgür',
+    position: 'Backend Geliştirici',
+    bio: 'Sunucu taraflı teknolojiler ve veritabanı yönetimi konularında uzman. 6 yıllık geliştirme deneyimi.',
+    image: 'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg',
+    social: {
+      linkedin: '#',
+      twitter: '#',
+      github: '#'
+    }
+  },
+  {
+    name: 'Gülden',
+    position: 'Frontend Geliştirici',
+    bio: 'Modern JavaScript frameworkleri ve duyarlı tasarım konularında uzman. 4 yıllık geliştirme deneyimi.',
+    image: 'https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg',
+    social: {
+      linkedin: '#',
+      twitter: '#',
+      github: '#'
+    }
+  },
+  {
+    name: 'Burak',
+    position: 'DevOps Mühendisi',
+    bio: 'CI/CD süreçleri ve container teknolojileri konularında uzman. 7 yıllık altyapı yönetimi deneyimi.',
+    image: 'https://images.pexels.com/photos/1516680/pexels-photo-1516680.jpeg',
+    social: {
+      linkedin: '#',
+      twitter: '#',
+      github: '#'
+    }
+  },
+  {
+    name: 'Rezzan',
+    position: 'Siber Güvenlik Uzmanı',
+    bio: 'Uygulama güvenliği ve sızma testleri konularında uzman. 8 yıllık güvenlik deneyimi.',
+    image: 'https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg',
+    social: {
+      linkedin: '#',
+      twitter: '#',
+      github: '#'
+    }
+  },
+  {
+    name: 'Kadir',
+    position: 'Mobil Uygulama Geliştirici',
+    bio: 'iOS ve Android platformları için uygulama geliştirme konusunda uzman. 5 yıllık mobil geliştirme deneyimi.',
+    image: 'https://images.pexels.com/photos/937481/pexels-photo-937481.jpeg',
+    social: {
+      linkedin: '#',
+      twitter: '#',
+      github: '#'
+    }
+  },
+  {
+    name: 'Emir',
+    position: 'QA Test Mühendisi',
+    bio: 'Yazılım kalite güvence süreçleri ve test otomasyonu konularında uzman. 6 yıllık test deneyimi.',
+    image: 'https://images.pexels.com/photos/846741/pexels-photo-846741.jpeg',
+    social: {
+      linkedin: '#',
+      twitter: '#',
+      github: '#'
+    }
+  },
+  {
+    name: 'Berk',
+    position: 'İş Analisti',
+    bio: 'Gereksinim analizi ve paydaş yönetimi konularında uzman. 5 yıllık iş analizi deneyimi.',
+    image: 'https://images.pexels.com/photos/1587009/pexels-photo-1587009.jpeg',
+    social: {
+      linkedin: '#',
+      twitter: '#',
+      github: '#'
+    }
+  },
+  {
+    name: 'Uğur',
+    position: 'İş Analisti',
+    bio: 'Gereksinim analizi ve paydaş yönetimi konularında uzman. 5 yıllık iş analizi deneyimi.',
+    image: 'https://images.pexels.com/photos/1587009/pexels-photo-1587009.jpeg',
+    social: {
+      linkedin: '#',
+      twitter: '#',
+      github: '#'
+    }
+  },
+  {
+    name: 'Hüsna',
+    position: 'İş Analisti',
+    bio: 'Gereksinim analizi ve paydaş yönetimi konularında uzman. 5 yıllık iş analizi deneyimi.',
+    image: 'https://images.pexels.com/photos/1587009/pexels-photo-1587009.jpeg',
     social: {
       linkedin: '#',
       twitter: '#',

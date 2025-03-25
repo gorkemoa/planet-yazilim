@@ -424,7 +424,7 @@ const stats = [
   { number: "24/7", label: "Teknik Destek" }
 ];
 
-function CRMCozumleri() {
+function Projelendirme() {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
@@ -600,4 +600,4 @@ function CRMCozumleri() {
   );
 }
 
-export default CRMCozumleri; 
+export default Projelendirme; 

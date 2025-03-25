@@ -455,7 +455,7 @@ function YazilimGelistirme() {
               <br />
               {'  '}<span className="function">mission</span>: <span className="string">"Geleceğin Teknolojileri"</span>,
               <br />
-              {'  '}<span className="function">expertise</span>: <span className="string">"Yazılım Geliştirme"</span>
+              {'  '}<span className="function">expertise</span>: <span className="string">""</span>
               <br />
               {'}'};
             </CodeBlock>
@@ -466,7 +466,7 @@ function YazilimGelistirme() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1 }}
           >
-            Yazılım Geliştirme
+            
           </Title>
           <Subtitle
             initial={{ opacity: 0 }}

@@ -121,9 +121,9 @@ const Footer = () => {
             <FooterLink to="/hakkimizda">Hakkımızda</FooterLink>
             <FooterLink>Hizmetler</FooterLink>
             <FooterSubLinks>
-              <FooterSubLink to="/crm">CRM Çözümleri</FooterSubLink>
-              <FooterSubLink to="/erp">ERP Sistemleri</FooterSubLink>
-              <FooterSubLink to="/yazilim">Yazılım Geliştirme</FooterSubLink>
+              <FooterSubLink to="/projelendirme">Projelendirme</FooterSubLink>
+              <FooterSubLink to="/uyarlama">Uyarlama</FooterSubLink>
+              <FooterSubLink to="/destek">Destek</FooterSubLink>
               <FooterSubLink to="/entegrasyon">Entegrasyon Hizmetleri</FooterSubLink>
             </FooterSubLinks>
             <FooterLink to="/tum-urunler">Ürünler</FooterLink>

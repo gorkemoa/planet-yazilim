@@ -390,10 +390,10 @@ const LogoWrapper = styled(motion.div)`
   perspective: 1000;
   
   img {
-    width: 150%;
-    height: 150%;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
-    filter: grayscale(80%) brightness(1.3) contrast(1.1);
+    filter: brightness(1.3) contrast(1.1);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: filter, transform;
     opacity: 0.8;
@@ -412,10 +412,10 @@ const LogoWrapper = styled(motion.div)`
     z-index: 10;
     
     img {
-      width: 170%;
-      height: 170%;
-      filter: grayscale(0%) brightness(1.1) contrast(1.1);
-      transform: scale(1.1);
+      width: 110%;
+      height: 110%;
+      filter: brightness(1.1) contrast(1.1);
+      transform: scale(1.05);
       opacity: 1;
       padding: 0;
     }

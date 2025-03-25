@@ -29,7 +29,7 @@ import {
 import { theme } from '../styles/GlobalStyles';
 import Container from './common/Container';
 import Button from './common/Button';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Nav = styled(motion.nav)`
   position: fixed;
@@ -596,10 +596,16 @@ const menuItems = [
   }
 ];
 
+// Sayfa geçişlerinde scroll'u en üste taşıyan fonksiyon
+const scrollToTop = () => {
+  window.scrollTo(0, 0);
+};
+
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openSubMenus, setOpenSubMenus] = useState({});
+  const location = useLocation();
 
   const toggleSubMenu = (title) => {
     setOpenSubMenus(prev => ({
@@ -617,6 +623,11 @@ function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Lokasyon (sayfa) değiştiğinde sayfayı en üste taşı
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
   return (
     <Nav 
       $scrolled={scrolled}
@@ -626,14 +637,16 @@ function Navbar() {
     >
       <NavContainer>
         <Logo>
-          <img src="/logos/Sagadayalıslogan-beyazorbitie.png" alt="Planet Yazılım Logo" link="/index.html" />
+          <Link to="/" onClick={scrollToTop}>
+            <img src="/logos/Sagadayalıslogan-beyazorbitie.png" alt="Planet Yazılım Logo" />
+          </Link>
         </Logo>
 
         <NavLinks>
           {menuItems.map((item) => (
             item.items.length > 0 ? (
               <NavItem key={item.title}>
-                <NavLink to={item.href}>
+                <NavLink to={item.href} onClick={scrollToTop}>
                   <IconBox>
                     <item.icon />
                   </IconBox>
@@ -641,7 +654,7 @@ function Navbar() {
                 </NavLink>
                 <DropdownContent>
                   {item.items.map((subItem) => (
-                    <DropdownLink key={subItem.title} to={subItem.href}>
+                    <DropdownLink key={subItem.title} to={subItem.href} onClick={scrollToTop}>
                       <IconBox>
                         <subItem.icon />
                       </IconBox>
@@ -654,7 +667,7 @@ function Navbar() {
                 </DropdownContent>
               </NavItem>
             ) : (
-              <NavLink key={item.title} to={item.href}>
+              <NavLink key={item.title} to={item.href} onClick={scrollToTop}>
                 <IconBox>
                   <item.icon />
                 </IconBox>
@@ -709,7 +722,7 @@ function Navbar() {
                               transition={{ duration: 0.3, ease: 'easeInOut' }}
                             >
                               {item.items.map((subItem) => (
-                                <MobileSubLink key={subItem.title} to={subItem.href}>
+                                <MobileSubLink key={subItem.title} to={subItem.href} onClick={scrollToTop}>
                                   <IconBox>
                                     <subItem.icon />
                                   </IconBox>
@@ -724,7 +737,7 @@ function Navbar() {
                         </AnimatePresence>
                       </>
                     ) : (
-                      <MobileNavLink to={item.href}>
+                      <MobileNavLink to={item.href} onClick={scrollToTop}>
                         <div className="link-content">
                           <IconBox>
                             <item.icon />

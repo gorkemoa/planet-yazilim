@@ -70,6 +70,7 @@ const ContactSection = styled.section`
   position: relative;
   z-index: 1;
 
+
   @media (max-width: 768px) {
     padding-top: 80px;
     padding: ${theme.spacing.lg} 0;
@@ -77,9 +78,9 @@ const ContactSection = styled.section`
 `;
 
 const StyledContainer = styled(Container)`
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 0 ${theme.spacing.md};
+  padding: 0 ${theme.spacing.lg};
 `;
 
 const Title = styled(motion.h2)`
@@ -113,12 +114,12 @@ const Subtitle = styled(motion.p)`
 
 const ContactLayout = styled.div`
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: 1fr 3fr 1fr;
   gap: ${theme.spacing.lg};
   width: 100%;
   
   @media (max-width: 1200px) {
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 1fr 3fr 1fr;
   }
 
   @media (max-width: 992px) {
@@ -129,21 +130,21 @@ const ContactLayout = styled.div`
 const FormWrapper = styled(motion.div)`
   grid-column: 2;
   position: relative;
-  padding: ${theme.spacing.lg};
+  padding: ${theme.spacing.xl} ${theme.spacing.xl} ${theme.spacing.xl} ${theme.spacing.xl};
   border-radius: ${theme.borderRadius.large};
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(10px);
   border: 1px solid ${theme.colors.primary}30;
   box-shadow: 0 0 30px rgba(8, 252, 172, 0.1);
-
-  @media (max-width: 1200px) {
-    grid-column: 2;
-  }
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 
   @media (max-width: 992px) {
     grid-column: 1;
     grid-row: 1;
     order: 1;
+    padding: ${theme.spacing.lg};
   }
 `;
 
@@ -251,7 +252,7 @@ const ContactLink = styled.a`
 
 const FormGroup = styled.div`
   position: relative;
-  margin-bottom: ${theme.spacing.md};
+  margin-bottom: ${theme.spacing.lg};
   
   &.full-width {
     grid-column: 1 / -1;
@@ -273,7 +274,7 @@ const FormGroup = styled.div`
 
 const Input = styled.input`
   width: 100%;
-  padding: ${theme.spacing.md};
+  padding: ${theme.spacing.lg};
   padding-left: 45px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -296,14 +297,14 @@ const Input = styled.input`
 
 const TextArea = styled(Input).attrs({ as: 'textarea' })`
   resize: vertical;
-  min-height: 120px;
+  min-height: 150px;
   line-height: 1.5;
   padding-left: ${theme.spacing.lg};
 `;
 
 const FormTitle = styled.h3`
   color: #fff;
-  font-size: 1.8rem;
+  font-size: 2.2rem;
   margin-bottom: ${theme.spacing.xl};
   font-weight: 600;
   text-align: center;
@@ -318,7 +319,7 @@ const FormTitle = styled.h3`
     bottom: -10px;
     left: 50%;
     transform: translateX(-50%);
-    width: 80px;
+    width: 120px;
     height: 2px;
     background: linear-gradient(to right, transparent, ${theme.colors.primary}, transparent);
   }
@@ -326,6 +327,22 @@ const FormTitle = styled.h3`
   @media (max-width: 768px) {
     font-size: 1.5rem;
     margin-bottom: ${theme.spacing.lg};
+  }
+`;
+
+const Form = styled.form`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: ${theme.spacing.lg};
+  flex: 1;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: ${theme.spacing.md};
+  }
+
+  @media (max-width: 576px) {
+    grid-template-columns: 1fr;
   }
 `;
 
@@ -348,6 +365,7 @@ const SubmitButton = styled(motion.button)`
   justify-content: center;
   gap: ${theme.spacing.sm};
   margin-top: ${theme.spacing.md};
+  grid-column: 1 / -1;
 
   svg {
     font-size: 1.1rem;
@@ -425,16 +443,6 @@ const MapTitle = styled.h3`
   background: linear-gradient(to right, #fff, ${theme.colors.primary});
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-`;
-
-const Form = styled.form`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: ${theme.spacing.md};
-
-  @media (max-width: 576px) {
-    grid-template-columns: 1fr;
-  }
 `;
 
 const fadeInVariants = {

@@ -7,7 +7,8 @@ import Button from '../components/common/Button';
 import { theme } from '../styles/GlobalStyles';
 import './Partners.css';
 import { BiNetworkChart , BiCodeAlt, BiGitBranch, BiBookReader } from 'react-icons/bi';
-import { FaCar, FaHospital, FaCogs, FaTshirt, FaTractor, FaBox, FaUtensils, FaPrint, FaFlask, FaBolt, FaMicrochip, FaStore, FaIndustry, FaBuilding, FaTools, FaQuoteRight, FaStar, FaChevronLeft, FaChevronRight, FaArrowRight, FaClock, FaUser, FaTag } from 'react-icons/fa';
+import { FaCar, FaHospital, FaCogs, FaTshirt, FaTractor, FaBox, FaUtensils, FaPrint, FaFlask, FaBolt, FaMicrochip, FaStore, FaIndustry, FaBuilding, FaTools, FaQuoteRight, FaStar, FaChevronLeft, FaChevronRight, FaArrowRight, FaClock, FaUser, FaTag, FaChartLine } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 // Hero Bileşeni
 const VideoBackground = styled.div`
@@ -1554,6 +1555,269 @@ Solutions.displayName = 'Solutions';
 
 // export default Solutions yorumlamayın, sadece Sections içinde kullanılacak
 
+// KPE Bölümü Bileşenleri
+const KPESection = styled(Section)`
+  position: relative;
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+  overflow: hidden;
+  padding: 80px 0;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(8, 252, 172, 0.1) 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+`;
+
+const KPEContainer = styled(Container)`
+  position: relative;
+  z-index: 1;
+`;
+
+const KPEGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  
+  @media (max-width: ${theme.breakpoints.lg}) {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+`;
+
+const KPEContent = styled.div`
+  h2 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    background: linear-gradient(45deg, #fff, ${theme.colors.primary});
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1.2rem;
+    line-height: 1.2;
+    
+    @media (max-width: ${theme.breakpoints.md}) {
+      font-size: 2.2rem;
+    }
+  }
+  
+  p {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+`;
+
+const KPEFeatures = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
+`;
+
+const KPEFeatureItem = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+  }
+  
+  .icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(8, 252, 172, 0.1);
+    border-radius: 6px;
+    margin-top: 0.25rem;
+    
+    svg {
+      color: ${theme.colors.primary};
+      font-size: 1rem;
+    }
+  }
+  
+  .content {
+    h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.25rem;
+    }
+    
+    p {
+      font-size: 0.85rem;
+      margin-bottom: 0;
+      color: rgba(255, 255, 255, 0.6);
+    }
+  }
+`;
+
+const KPEImageWrapper = styled(motion.div)`
+  position: relative;
+  height: 450px;
+  width: 100%;
+  
+  @media (max-width: ${theme.breakpoints.md}) {
+    height: 350px;
+  }
+  
+  .preview-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
+    object-fit: cover;
+    transition: all 0.4s ease;
+    
+    &:hover {
+      transform: scale(1.02) translateY(-5px);
+    }
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    width: 90%;
+    height: 90%;
+    border: 1px solid ${theme.colors.primary}20;
+    border-radius: 12px;
+    z-index: -1;
+  }
+`;
+
+export function KPE() {
+  return (
+    <KPESection>
+      <KPEContainer>
+        <KPEGrid>
+          <KPEContent>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+            >
+              <h2>Kurumsal Performans Entegrasyonu</h2>
+              <p>
+                KPE ile şirketinizin performansını tek platformda yönetin. 
+                Verimliliği artırın, maliyetleri düşürün ve stratejik kararları 
+                hızlandırın.
+              </p>
+              
+              <Link to="/kpe" style={{ textDecoration: 'none' }}>
+                <Button 
+                  variant="primary"
+                  size="lg"
+                  style={{
+                    padding: '1rem 2.5rem',
+                    fontSize: '1.1rem',
+                    borderRadius: '12px',
+                    background: 'linear-gradient(135deg, ${theme.colors.primary}, #00d4a0)',
+                    boxShadow: '0 10px 20px -5px rgba(8, 252, 172, 0.3)',
+                    transition: 'all 0.3s ease',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.75rem',
+                    '&:hover': {
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 15px 30px -5px rgba(8, 252, 172, 0.4)',
+                      background: 'linear-gradient(135deg, #00d4a0, ${theme.colors.primary})'
+                    }
+                  }}
+                >
+                  Daha Fazla Bilgi
+                  <FaArrowRight style={{ transition: 'transform 0.3s ease' }} />
+                </Button>
+              </Link>
+              
+              <KPEFeatures>
+                <KPEFeatureItem>
+                  <div className="icon">
+                    <BiNetworkChart />
+                  </div>
+                  <div className="content">
+                    <h4>Veri Entegrasyonu</h4>
+                    <p>Tüm veriler tek platformda</p>
+                  </div>
+                </KPEFeatureItem>
+                
+                <KPEFeatureItem>
+                  <div className="icon">
+                    <FaCogs />
+                  </div>
+                  <div className="content">
+                    <h4>Süreç Optimizasyonu</h4>
+                    <p>Otomatik iş akışları</p>
+                  </div>
+                </KPEFeatureItem>
+                
+                <KPEFeatureItem>
+                  <div className="icon">
+                    <BiCodeAlt />
+                  </div>
+                  <div className="content">
+                    <h4>Özelleştirilebilir</h4>
+                    <p>İhtiyaca özel çözümler</p>
+                  </div>
+                </KPEFeatureItem>
+                
+                <KPEFeatureItem>
+                  <div className="icon">
+                    <FaChartLine />
+                  </div>
+                  <div className="content">
+                    <h4>Gerçek Zamanlı</h4>
+                    <p>Anlık veri analizi</p>
+                  </div>
+                </KPEFeatureItem>
+              </KPEFeatures>
+            </motion.div>
+          </KPEContent>
+          
+          <KPEImageWrapper
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            <img 
+              src="/logos/ORBİTİE-BROŞÜR-1.png" 
+              alt="KPE Dashboard"
+              className="preview-img"
+              style={{ width: '100%', height: 'auto', objectFit: 'contain' }}
+            />
+          </KPEImageWrapper>
+        </KPEGrid>
+      </KPEContainer>
+    </KPESection>
+  );
+}
+
 // Testimonials Bileşeni
 const TestimonialsSection = styled.section`
   padding: ${theme.spacing.xxl} 0;
@@ -2594,3 +2858,4 @@ const Sections = {
 
 // Sections objesini export ediyoruz
 export default Sections;
+

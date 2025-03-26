@@ -14,6 +14,7 @@ import Tarihce from './pages/Hakkimizda/Tarihce';
 
 // Sections bileşenlerini import ediyoruz
 import Sections from './sections';
+import { KPE as KPESection } from './sections';
 
 // Diğer sayfalar için lazy loading
 const ContactPage = lazy(() => import('./pages/İletişim/ContactPage'));
@@ -39,7 +40,7 @@ const DestekHizmetleri = lazy(() => import('./pages/Hizmetler/DestekHizmetleri')
 const EntegrasyonHizmetleri = lazy(() => import('./pages/Hizmetler/EntegrasyonHizmetleri'));
 
 // KPE sayfası
-const KPE = lazy(() => import('./pages/KPE/kpe'));
+const KPEPage = lazy(() => import('./pages/KPE/kpe'));
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
                   <Sections.Products />
                   <Sections.Solutions />
                   <Sections.Services />
+                  <KPESection />
                   <Sections.Testimonials />
                   <Sections.LatestArticles />
                 </main>
@@ -88,7 +90,7 @@ function App() {
               <Route path="/hakkimizda/tarihce" element={<Tarihce />} />
 
               {/* KPE sayfası */}
-              <Route path="/kpe" element={<KPE />} />
+              <Route path="/kpe" element={<KPEPage />} />
             </Routes>
           </Suspense>
           <Footer />

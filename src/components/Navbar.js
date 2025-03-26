@@ -621,7 +621,7 @@ function Navbar() {
       <NavContainer>
         <Logo>
           <Link to="/" onClick={scrollToTop}>
-            <img src="/logos/Sagadayalıslogan-beyazorbitie.png" alt="Planet Yazılım Logo" />
+            <img src="/logos/Sagadayalıslogan-siyahorbitie.png" alt="Planet Yazılım Logo" />
           </Link>
         </Logo>
 

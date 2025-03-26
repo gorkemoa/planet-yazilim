@@ -248,6 +248,8 @@ const Features = styled.div`
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
   margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
 
   @media (max-width: ${theme.breakpoints.md}) {
     grid-template-columns: 1fr;
@@ -258,19 +260,67 @@ const Feature = styled(motion.div)`
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1rem;
+  padding: 1.2rem;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid ${theme.colors.primary}20;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: visible;
 
   svg {
     color: ${theme.colors.primary};
     font-size: 1.2rem;
+    min-width: 20px;
   }
 
   span {
     color: #fff;
     font-size: 1rem;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: ${theme.colors.primary}50;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+
+    .tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, 0);
+    }
+  }
+`;
+
+const Tooltip = styled.div`
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translate(-50%, -10px);
+  background: ${theme.colors.primary};
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  color: #000;
+  width: 110%;
+  min-width: 250px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 8px;
+    border-style: solid;
+    border-color: ${theme.colors.primary} transparent transparent transparent;
   }
 `;
 
@@ -336,32 +386,33 @@ const YeniUrunler = () => {
   const products = [
     {
       id: 1,
-      title: 'AI Destekli CRM 2.0',
+      title: 'AI Destekli CPQ',
       icon: FaBrain,
-      badge: 'Yeni Nesil',
-      description: 'Yapay zeka teknolojisi ile güçlendirilmiş yeni nesil müşteri ilişkileri yönetim sistemi. Otomatik müşteri analizi, tahmine dayalı satış öngörüleri ve kişiselleştirilmiş müşteri deneyimi.',
-      image: 'https://images.unsplash.com/photo-1488229297570-58520851e868?auto=format&fit=crop&q=80&w=800',
+      badge: 'Yeni',
+      description: 'CPQ (Configure, Price, Quote) çözümleri, teklif oluşturma süreçlerini hızlandırırken, WhatsApp entegrasyonu ile satış ekiplerine daha hızlı ve etkili bir iletişim imkânı sunar.',
+      image: 'https://cdn.pixabay.com/photo/2022/01/21/00/35/whatsapp-icon-6953523_1280.jpg',
       releaseDate: '2024 Q1',
       features: [
-        { icon: 'AI', text: 'Yapay Zeka Destekli Analiz' },
-        { icon: 'Automation', text: 'Otomatik Lead Skorlama' },
-        { icon: 'Performance', text: 'Gelişmiş Raporlama' },
-        { icon: 'Global', text: 'Çok Dilli Destek' }
-      ]
-    },
-    {
-      id: 2,
-      title: 'Bulut Tabanlı ERP',
-      icon: FaCloud,
-      badge: 'Beta',
-      description: 'Tamamen bulut tabanlı, her yerden erişilebilir kurumsal kaynak planlama sistemi. Gerçek zamanlı veri senkronizasyonu, mobil erişim ve gelişmiş güvenlik özellikleri.',
-      image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800',
-      releaseDate: '2024 Q2',
-      features: [
-        { icon: 'Cloud', text: 'Gerçek Zamanlı Senkronizasyon' },
-        { icon: 'Mobile', text: 'Mobil Uygulama Desteği' },
-        { icon: 'Security', text: 'Gelişmiş Güvenlik' },
-        { icon: 'Integration', text: 'Kolay Entegrasyon' }
+        { 
+          icon: 'AI', 
+          text: 'Anında Teklif Paylaşımı',
+          description: 'Müşterilere özel teklifler, doğrudan WhatsApp üzerinden PDF veya mesaj formatında iletilebilir.'
+        },
+        { 
+          icon: 'Automation', 
+          text: 'Hızlı Onay ve Geri Bildirim',
+          description: 'Müşteriler, teklifleri anında inceleyerek sorularını WhatsApp üzerinden sorabilir ve hızlı karar verebilir.'
+        },
+        { 
+          icon: 'Performance', 
+          text: 'Otomatik Bildirimler',
+          description: 'Teklif durumu, ödeme hatırlatmaları veya sipariş onayları otomatik WhatsApp mesajlarıyla iletilir.'
+        },
+        { 
+          icon: 'Global', 
+          text: 'Raporlama Deneyimi',
+          description: 'Kişiselleştirilmiş mesajlar ve chatbot desteğiyle raporlama sürecini kolaylaştırır.'
+        }
       ]
     }
   ];
@@ -458,6 +509,9 @@ const YeniUrunler = () => {
                         >
                           <Icon />
                           <span>{feature.text}</span>
+                          <Tooltip className="tooltip">
+                            {feature.description}
+                          </Tooltip>
                         </Feature>
                       );
                     })}

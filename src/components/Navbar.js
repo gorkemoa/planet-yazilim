@@ -8,7 +8,6 @@ import {
   FaBoxOpen,
   FaLightbulb,
   FaHandshake,
-  FaBook,
   FaPhoneAlt,
   FaBars,
   FaTimes,
@@ -19,11 +18,7 @@ import {
   FaRocket,
   FaCode,
   FaIndustry,
-  FaGlobe,
-  FaNewspaper,
-  FaVideo,
   FaFileAlt,
-  FaMapMarkerAlt,
   FaChevronDown
 } from 'react-icons/fa';
 import { theme } from '../styles/GlobalStyles';
@@ -472,6 +467,12 @@ const menuItems = [
         href: '/destek'
       }
     ]
+  },
+  {
+    title: 'KPE',
+    icon: FaCode,
+    href: '/kpe',
+    items: []
   },
   {
     title: 'ÜRÜNLER',

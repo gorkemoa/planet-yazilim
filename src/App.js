@@ -38,6 +38,9 @@ const UyarlamaSureci = lazy(() => import('./pages/Hizmetler/ERPSistemleri'));
 const DestekHizmetleri = lazy(() => import('./pages/Hizmetler/DestekHizmetleri'));
 const EntegrasyonHizmetleri = lazy(() => import('./pages/Hizmetler/EntegrasyonHizmetleri'));
 
+// KPE sayfası
+const KPE = lazy(() => import('./pages/KPE/kpe'));
+
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -83,6 +86,9 @@ function App() {
               <Route path="/hakkimizda/firma-hakkinda" element={<FirmaHakkinda />} />
               <Route path="/hakkimizda/ekibimiz" element={<Ekibimiz />} />
               <Route path="/hakkimizda/tarihce" element={<Tarihce />} />
+
+              {/* KPE sayfası */}
+              <Route path="/kpe" element={<KPE />} />
             </Routes>
           </Suspense>
           <Footer />
